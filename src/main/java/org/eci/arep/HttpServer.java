@@ -4,7 +4,7 @@ import java.net.*;
 import java.io.*;
 public class HttpServer {
 
-    public static void main(String[] args) throws IOException {
+    public static void main(String[] args) throws IOException, URISyntaxException {
         ServerSocket serverSocket = null;
         try {
             serverSocket = new ServerSocket(35000);
@@ -28,8 +28,14 @@ public class HttpServer {
                     new InputStreamReader(
                             clientSocket.getInputStream()));
             String inputLine, outputLine;
-
+            String path = null;
             while ((inputLine = in.readLine()) != null) {
+                if(path == null){
+                    URI requi = new URI(inputLine.split(" ")[1]);
+             
+                    System.out.println("path: " + requi.getPath());
+                    path = requi.getPath();
+                }
                 System.out.println("Received: " + inputLine);
                 if (!in.ready()) {
                     break;
