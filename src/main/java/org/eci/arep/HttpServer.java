@@ -29,12 +29,14 @@ public class HttpServer {
                             clientSocket.getInputStream()));
             String inputLine, outputLine;
             String path = null;
+            boolean firstLine = true;
             while ((inputLine = in.readLine()) != null) {
-                if(path == null){
+                if(firstLine){
                     URI requi = new URI(inputLine.split(" ")[1]);
              
                     System.out.println("path: " + requi.getPath());
                     path = requi.getPath();
+                    firstLine = false;
                 }
                 System.out.println("Received: " + inputLine);
                 if (!in.ready()) {
